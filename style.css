@@ -3,6 +3,7 @@ body {
   color: #006160;
   background-image: url("https://images.pexels.com/photos/1933239/pexels-photo-1933239.jpeg?cs=srgb&dl=pexels-stein-egil-liland-1933239.jpg&fm=jpg");
   background-size: cover;
+  border: 30px solid white;
 }
 
 h1 {
