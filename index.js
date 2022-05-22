@@ -1,5 +1,4 @@
 let now = new Date();
-let h3 = document.querySelector("h3");
 
 let days = [
   "Sunday",
@@ -21,8 +20,6 @@ if (minutes < 10) {
   minutes = `0${minutes}`;
 }
 
-h3.innerHTML = `${day} ${hours}:${minutes}`;
-
 function celciusDisplay(event) {
   event.preventDefault();
   let celciusValue = document.querySelector("#celFahTemp");
@@ -42,18 +39,18 @@ let fahrButton = document.querySelector("#fahrenheit");
 fahrButton.addEventListener("click", fahrDisplay);
 
 function showWeather(response) {
-  let temp = document.querySelector("#celFahTemp");
-  let temperature = Math.round(response.data.main.temp);
-  temp.innerHTML = `${temperature}`;
-  let place = document.querySelector("#city-name");
-  let placeName = response.data.name;
-  place.innerHTML = `${placeName}`;
+  document.querySelector("#celFahTemp").innerHTML = Math.round(
+    response.data.main.temp
+  );
+
+  document.querySelector("#city-name").innerHTML = `${response.data.name}`;
   document.querySelector("#humidity").innerHTML = response.data.main.humidity;
   document.querySelector("#wind").innerHTML = Math.round(
     response.data.wind.speed
   );
   document.querySelector("#description").innerHTML =
     response.data.weather[0].main;
+  document.querySelector("#date").innerHTML = `${day} ${hours}:${minutes}`;
 }
 
 function retrievePosition(position) {
