@@ -1,23 +1,25 @@
-let now = new Date();
+function formatDate(timestamp) {
+  let now = new Date(timestamp);
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  let day = days[now.getDay()];
 
-let days = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
-let day = days[now.getDay()];
-
-let hours = now.getHours();
-if (hours < 10) {
-  hours = `0${hours}`;
-}
-let minutes = now.getMinutes();
-if (minutes < 10) {
-  minutes = `0${minutes}`;
+  let hours = now.getHours();
+  if (hours < 10) {
+    hours = `0${hours}`;
+  }
+  let minutes = now.getMinutes();
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+  return `${day} ${hours}:${minutes}`;
 }
 
 function celciusDisplay(event) {
@@ -50,7 +52,18 @@ function showWeather(response) {
   );
   document.querySelector("#description").innerHTML =
     response.data.weather[0].main;
-  document.querySelector("#date").innerHTML = `${day} ${hours}:${minutes}`;
+  document.querySelector("#date").innerHTML = formatDate(
+    response.data.dt * 1000
+  );
+  document
+    .querySelector("#main-icon")
+    .setAttribute(
+      "src",
+      `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
+    );
+  document
+    .querySelector("#main-icon")
+    .setAttribute("alt", response.data.weather[0].description);
 }
 
 function retrievePosition(position) {
@@ -69,13 +82,19 @@ function getPosition(event) {
 let currLocButt = document.querySelector("#currLocButt");
 currLocButt.addEventListener("click", getPosition);
 
-function cityValue(event) {
-  event.preventDefault();
+function search(city) {
   let apiKey = "95fd2bb0e975bc28910a455e37356508";
-  let cityVal = document.querySelector("#city-input").value;
-  let url = `https://api.openweathermap.org/data/2.5/weather?q=${cityVal}&units=metric&appid=${apiKey}`;
+  let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
   axios.get(url).then(showWeather);
 }
 
+function retrieveSubmit(event) {
+  event.preventDefault();
+  let cityVal = document.querySelector("#city-input");
+  search(cityVal.value);
+}
+
 let submitButton = document.querySelector("#search-form");
-submitButton.addEventListener("submit", cityValue);
+submitButton.addEventListener("submit", retrieveSubmit);
+
+search("York");
