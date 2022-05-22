@@ -58,3 +58,13 @@ footer {
 .celFah {
   font-size: 20px;
 }
+
+.active {
+  cursor: default;
+  color: #006160;
+  text-decoration: none;
+}
+
+.active:hover {
+  text-decoration: none;
+}

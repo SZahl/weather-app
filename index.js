@@ -22,24 +22,6 @@ function formatDate(timestamp) {
   return `${day} ${hours}:${minutes}`;
 }
 
-function celciusDisplay(event) {
-  event.preventDefault();
-  let celciusValue = document.querySelector("#celFahTemp");
-  celciusValue.innerHTML = "19°C";
-}
-
-let celciusButton = document.querySelector("#celcius");
-celciusButton.addEventListener("click", celciusDisplay);
-
-function fahrDisplay(event) {
-  event.preventDefault();
-  let fahrValue = document.querySelector("#celFahTemp");
-  fahrValue.innerHTML = "66°F";
-}
-
-let fahrButton = document.querySelector("#fahrenheit");
-fahrButton.addEventListener("click", fahrDisplay);
-
 function showWeather(response) {
   document.querySelector("#celFahTemp").innerHTML = Math.round(
     response.data.main.temp
@@ -64,6 +46,8 @@ function showWeather(response) {
   document
     .querySelector("#main-icon")
     .setAttribute("alt", response.data.weather[0].description);
+
+  celsiusTemp = response.data.main.temp;
 }
 
 function retrievePosition(position) {
@@ -97,4 +81,29 @@ function retrieveSubmit(event) {
 let submitButton = document.querySelector("#search-form");
 submitButton.addEventListener("submit", retrieveSubmit);
 
-search("York");
+function celsiusDisplay(event) {
+  event.preventDefault();
+  celsiusButton.classList.add("active");
+  fahrButton.classList.remove("active");
+  let temp = document.querySelector("#celFahTemp");
+  temp.innerHTML = Math.round(celsiusTemp);
+}
+
+function fahrDisplay(event) {
+  event.preventDefault();
+  let temp = document.querySelector("#celFahTemp");
+  celsiusButton.classList.remove("active");
+  fahrButton.classList.add("active");
+  let fahrTemp = (celsiusTemp * 9) / 5 + 32;
+  temp.innerHTML = Math.round(fahrTemp);
+}
+
+let celsiusTemp = null;
+
+let celsiusButton = document.querySelector("#celsius");
+celsiusButton.addEventListener("click", celsiusDisplay);
+
+let fahrButton = document.querySelector("#fahrenheit");
+fahrButton.addEventListener("click", fahrDisplay);
+
+search("York, UK");
