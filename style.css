@@ -20,9 +20,11 @@ form {
 footer {
   text-align: center;
   background: #002242;
-  max-width: 120px;
+  max-width: 250px;
   margin: auto;
   border-radius: 20px;
+  padding: 8px;
+  opacity: 0.9;
 }
 
 .weather-forecast {
